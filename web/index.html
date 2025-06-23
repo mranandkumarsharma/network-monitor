@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Network Monitor Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🌐 Network Monitor Dashboard</h1>
+        <div class="status-bar">
+          <span id="connection-status" class="status connected"
+            >● Connected</span
+          >
+          <span id="last-update">Last update: --</span>
+          <button id="export-btn" class="export-btn">📊 Export Data</button>
+        </div>
+      </header>
+
+      <div class="dashboard">
+        <!-- Overview Cards -->
+        <section class="overview">
+          <div class="card">
+            <h3>Total Bandwidth</h3>
+            <div class="metric">
+              <span id="total-rx" class="metric-value">0 KB/s</span>
+              <small>↓ Download</small>
+            </div>
+            <div class="metric">
+              <span id="total-tx" class="metric-value">0 KB/s</span>
+              <small>↑ Upload</small>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Active Devices</h3>
+            <div class="metric">
+              <span id="active-devices" class="metric-value">0</span>
+              <small>Online</small>
+            </div>
+            <div class="metric">
+              <span id="total-devices" class="metric-value">0</span>
+              <small>Total</small>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Network Health</h3>
+            <div class="metric">
+              <span id="avg-latency" class="metric-value">0ms</span>
+              <small>Avg Latency</small>
+            </div>
+            <div class="metric">
+              <span id="packet-loss" class="metric-value">0%</span>
+              <small>Packet Loss</small>
+            </div>
+          </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section class="charts">
+          <div class="chart-container">
+            <h3>Bandwidth Usage</h3>
+            <canvas id="bandwidth-chart"></canvas>
+          </div>
+
+          <div class="chart-container">
+            <h3>Network Latency</h3>
+            <canvas id="latency-chart"></canvas>
+          </div>
+        </section>
+
+        <!-- Tables Section -->
+        <section class="tables">
+          <div class="table-container">
+            <h3>Network Interfaces</h3>
+            <div class="table-controls">
+              <button id="refresh-interfaces" class="btn">🔄 Refresh</button>
+            </div>
+            <table id="interfaces-table">
+              <thead>
+                <tr>
+                  <th>Interface</th>
+                  <th>Download</th>
+                  <th>Upload</th>
+                  <th>Speed ↓</th>
+                  <th>Speed ↑</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="table-container">
+            <h3>Connected Devices</h3>
+            <div class="table-controls">
+              <label>
+                <input type="checkbox" id="show-inactive" /> Show Inactive
+              </label>
+              <button id="refresh-devices" class="btn">🔄 Refresh</button>
+            </div>
+            <table id="devices-table">
+              <thead>
+                <tr>
+                  <th>IP Address</th>
+                  <th>MAC Address</th>
+                  <th>Hostname</th>
+                  <th>Last Seen</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="table-container">
+            <h3>Ping Statistics</h3>
+            <div class="table-controls">
+              <button id="refresh-pings" class="btn">🔄 Refresh</button>
+            </div>
+            <table id="ping-table">
+              <thead>
+                <tr>
+                  <th>Host</th>
+                  <th>Last Latency</th>
+                  <th>Avg Latency</th>
+                  <th>Packet Loss</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- Export Modal -->
+      <div id="export-modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h3>Export Network Data</h3>
+          <div class="export-options">
+            <button onclick="exportData('traffic')" class="btn">
+              📈 Traffic Data
+            </button>
+            <button onclick="exportData('devices')" class="btn">
+              📱 Device List
+            </button>
+            <button onclick="exportData('ping')" class="btn">
+              🏓 Ping Statistics
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
